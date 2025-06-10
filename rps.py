@@ -1,71 +1,51 @@
 import random
-#rules of the game
-print('Winning rules of the game ROCK PAPER SCISSORS are :\n'
-      + "Rock vs Paper -> Paper wins \n"
-      + "Rock vs Scissors -> Rock wins \n"
-      + "Paper vs Scissors -> Scissor wins \n")
-#user inputs his choice
+import sys
+import time
+
+print('Welcome to rock paper scissors')
+
+moves: dict = {'rock':'🪨', 'paper':'📃', 'scissor':'✂️'}
+
+valid_moves: list[str] = list(moves.keys())
+
+user_wins: int = 0
+computer_wins: int = 0
+moves_tied: int = 0
+
+# Start of game
 while True:
-    print("1) Rock \n2) Paper\n3) Scissors")
-    choice = int(input("enter your choice: "))
-#if user didn't input one of the correct choices
-    while choice > 3 or choice < 1:
-       choice = int(input("please choose one of the given numbers "))
+    user_move:str = input('Please enter your move: Rock, Paper, Scissor: ').lower()
+    if user_move == 'exit':
+        print('Thank you for playing')
+        print('--------------------------------')
+        print(f'You won {user_wins} times')
+        print(f'Computer won {computer_wins} times')
+        print(f'Number of ties {moves_tied} times')
+        sys.exit()
 
-    if choice == 1:
-        choice_name = "Rock"
-    elif choice == 2:
-        choice_name = "Paper"
+    if user_move not in valid_moves:
+        print('Please enter a valid move')
+        continue
+    AI_play: dict = random.choice(valid_moves)
+
+# Moves played
+    print(f'You: {moves[user_move]}')
+    print(f'AI: {moves[AI_play]}')
+
+
+    if user_move == AI_play:
+        print('It is a tie!🪢🪢🪢🪢')
+        moves_tied += 1
+    elif user_move == 'rock' and AI_play == 'scissor':
+        print('You win :) ✅✅✅✅')
+        user_wins += 1
+    elif user_move == 'paper' and AI_play == 'rock':
+        print('You win :) ✅✅✅✅')
+        user_wins += 1
+    elif user_move == 'scissor' and AI_play == 'paper':
+        print('You win :) ✅✅✅✅')
+        user_wins += 1
     else:
-        choice_name = "Scissors"
-    print("user choice is",choice_name)
-    print("now it's the computers turn . . . .")
-#computers turn to choose
-    comp_choice = random.randint(1 , 3)
+        print('You lose :( ❌❌❌❌')
+        computer_wins += 1
 
-    while comp_choice == choice:
-        comp_choice = random.randint(1 , 3)
-
-    if comp_choice == 1:
-        comp_choice_name = "Rock"
-    elif comp_choice == 2:
-        comp_choice_name = "Paper"
-    else:
-        comp_choice_name = "Scissors"
-#both user and computer input their choices
-    print("computer choice is",comp_choice_name)
-    print(choice_name,"vs",comp_choice_name)
-#what each choice from both parties lead to
-    if choice == comp_choice:
-        print("it's a draw!\n",end="")
-        result = "Draw"
-    elif (choice == 1 and comp_choice == 2):
-        print("Computer wins!\n",end="")
-        result = "Paper"
-    elif (choice == 1 and comp_choice == 3):
-        print("You win!\n",end="")
-        results = "Rock"
-    elif (choice == 2 and comp_choice == 1):
-        print("You win!\n",end="")
-        result = "Paper"
-    elif (choice == 2 and comp_choice == 2):
-        print("It's a draw!\n",end="")
-        result = "Draw"
-    elif (choice == 2 and comp_choice == 3):
-        print("Computer wins! =>\n",end="")
-        result = "Scissors"
-    elif (choice == 3 and comp_choice == 1):
-        print("Computer wins!\n",end="")
-        result = "Rock"
-    elif (choice == 3 and comp_choice == 2):
-        print("You win!\n",end="")
-        result = "Scissors"
-    elif (choice == 3 and comp_choice == 3):
-        print("It's a draw!\n",end="")
-        result = "Draw"
-    print("Would you like to play again? (Y/N) ")
-    ans = input()
-#if users inputs y the game restarts
-    if ans =='n':
-        break
-print("thanks for playing")
